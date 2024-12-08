@@ -1,4 +1,4 @@
-package com.iu6_mamykin.wonder_pictures_server
+package com.iu6_mamykin.wonderpicturesserver
 
 import org.junit.Test
 

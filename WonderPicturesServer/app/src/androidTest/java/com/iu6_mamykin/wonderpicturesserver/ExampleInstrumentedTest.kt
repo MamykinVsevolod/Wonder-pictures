@@ -1,4 +1,4 @@
-package com.iu6_mamykin.wonder_pictures_server
+package com.iu6_mamykin.wonderpicturesserver
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.iu6_mamykin.wonder_pictures_server", appContext.packageName)
+        assertEquals("com.iu6_mamykin.wonderpicturesserver", appContext.packageName)
     }
 }
