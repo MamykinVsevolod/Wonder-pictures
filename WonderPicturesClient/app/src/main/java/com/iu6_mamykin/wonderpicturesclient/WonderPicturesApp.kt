@@ -1,6 +1,5 @@
 package com.iu6_mamykin.wonderpicturesclient
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,25 +22,19 @@ fun WonderPicturesApp() {
     val coroutineScope = rememberCoroutineScope() // Для запуска корутин
 
     WonderPicturesScreen(
-        themes = listOf("nature", "space", "animals", "landscapes", "cities"),
+        themes = listOf("Природа", "Космос", "Животные", "Пейзажи", "Города"),
         selectedTheme = selectedTheme,
         onThemeSelect = { theme ->
             selectedTheme = theme
             isLoading = true
             showPictureViewer = true
-            Log.d("WonderPicturesApp", "Requesting picture for theme: $theme")
             /// Запускаем корутину через rememberCoroutineScope
             coroutineScope.launch {
                 try {
-                    /*Log.d("WonderPicturesApp", "We in try")*/
                     val response = api.getPicture(theme)
-                    /* Log.d("WonderPicturesApp", "response is final")*/
-                    /*Log.d("WonderPicturesApp", "response != null")
-                    Log.d("WonderPicturesApp", "Received picture URL: $response")*/
                     pictureUrl = response.url
                 } catch (e: Exception) {
                     // Обрабатываем ошибки запроса
-                   /* Log.e("WonderPicturesApp", "Error in API call: ${e.message}")*/
                     e.printStackTrace()
                     pictureUrl = null
                 } finally {

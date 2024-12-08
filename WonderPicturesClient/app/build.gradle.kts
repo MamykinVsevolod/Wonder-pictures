@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.coil)
     implementation(libs.ui.tooling.preview)
     implementation(libs.coil.compose) // Для загрузки изображений
     implementation(libs.retrofit)

@@ -15,15 +15,14 @@ suspend fun downloadImage(context: Context, url: String) {
     val request = ImageRequest.Builder(context)
         .data(url)
         .build()
-
     val result = (loader.execute(request) as SuccessResult).drawable
     val bitmap = result.toBitmap()
-
     saveBitmapToFile(context, bitmap)
 }
 
 fun saveBitmapToFile(context: Context, bitmap: Bitmap) {
-    val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "downloaded_image.jpg")
+    val timestamp = System.currentTimeMillis()
+    val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "downloaded_image$timestamp.jpg")
     FileOutputStream(file).use { out ->
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
     }

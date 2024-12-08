@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 fun DownloadButton(onClick: () -> Unit) {
     Box(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
         Button(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Download")
+            Text(text = "Скачать")
         }
     }
 }
