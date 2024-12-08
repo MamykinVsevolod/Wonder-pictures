@@ -36,6 +36,7 @@ fun WonderPicturesScreen(
     onThemeSelect: (String) -> Unit,
     pictureUrl: String?,
     isLoading: Boolean,
+    onCloseViewer: () -> Unit,
     onDownload: (String) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -104,7 +105,11 @@ fun WonderPicturesScreen(
 
         // Затемнение и изображение, если URL присутствует
         if (pictureUrl != null) {
-            PictureViewer(pictureUrl = pictureUrl, isLoading = isLoading)
+            PictureViewer(
+                pictureUrl = pictureUrl,
+                isLoading = isLoading,
+                onCloseViewer = onCloseViewer, // Передаем обработчик в PictureViewer
+            )
 
             // Кнопка для скачивания под изображением
             if (!isLoading) {

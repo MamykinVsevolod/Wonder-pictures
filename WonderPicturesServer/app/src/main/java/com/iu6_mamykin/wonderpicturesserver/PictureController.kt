@@ -17,6 +17,7 @@ class PictureController {
 
     @GetMapping("/get-picture")
     fun getPicture(@RequestParam theme: String): Map<String, String> {
+        println("Received request for theme: $theme") // Log to server console
         val pictureUrl = pictures[theme] ?: "https://example.com/default.jpg"
         return mapOf("url" to pictureUrl)
     }
