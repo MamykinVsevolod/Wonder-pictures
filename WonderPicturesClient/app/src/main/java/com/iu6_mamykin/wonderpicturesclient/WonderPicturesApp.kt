@@ -22,7 +22,7 @@ fun WonderPicturesApp() {
     val coroutineScope = rememberCoroutineScope() // Для запуска корутин
 
     WonderPicturesScreen(
-        themes = listOf("Лисы", "Кофе", "Утки", "Собаки"),
+        themes = listOf("Лисы", "Кофе", "Утки"),
         selectedTheme = selectedTheme,
         onThemeSelect = { theme ->
             selectedTheme = theme

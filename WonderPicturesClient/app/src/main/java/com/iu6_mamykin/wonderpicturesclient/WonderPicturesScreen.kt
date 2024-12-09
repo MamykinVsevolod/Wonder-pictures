@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -29,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WonderPicturesScreen(
     themes: List<String>,
@@ -58,47 +62,41 @@ fun WonderPicturesScreen(
             )
 
             Spacer(modifier = Modifier.height(8.dp))
-
-            // OutlinedTextField для выбора темы
-            OutlinedTextField(
-                value = textFieldValue,
-                onValueChange = {
-                    textFieldValue = it
-                    if (it.isNotEmpty()) {
-                        expanded = true
-                    } else {
-                        expanded = false
-                    }
-                },
-                readOnly = true,
-                label = { Text("Тема") },
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_action_name),
-                        contentDescription = "Dropdown Arrow",
-                        modifier = Modifier.clickable { expanded = !expanded }
-                    )
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            DropdownMenu(
+            ExposedDropdownMenuBox(
                 expanded = expanded,
-                onDismissRequest = { expanded = false },
+                onExpandedChange = { expanded = !expanded },
                 modifier = Modifier
                     .background(Color.White)
                     .fillMaxWidth()
-
             ) {
-                themes.forEach { theme ->
-                    DropdownMenuItem(
-                        text = { Text(theme, fontSize = 16.sp) },
-                        onClick = {
-                            expanded = false
-                            onThemeSelect(theme)
-                            textFieldValue = theme // Обновляем значение TextField
-                        }
-                    )
+                OutlinedTextField(
+                    value = textFieldValue,
+                    onValueChange = { textFieldValue = it },
+                    readOnly = true,
+                    label = { Text("Тема") },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                    },
+                    modifier = Modifier
+                        .menuAnchor() // Связывает меню с текстовым полем
+                        .fillMaxWidth()
+                )
+
+                // Меню, связанное с текстовым полем
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    themes.forEach { theme ->
+                        DropdownMenuItem(
+                            text = { Text(theme) },
+                            onClick = {
+                                expanded = false
+                                onThemeSelect(theme)
+                                textFieldValue = theme
+                            }
+                        )
+                    }
                 }
             }
         }

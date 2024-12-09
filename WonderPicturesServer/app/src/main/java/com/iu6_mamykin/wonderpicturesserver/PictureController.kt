@@ -14,8 +14,7 @@ class PictureController {
     private val pictures = mapOf(
         "Лисы" to "https://randomfox.ca/floof/",
         "Кофе" to "https://coffee.alexflipnote.dev/random.json",
-        "Утки" to "https://random-d.uk/api/random",
-        "Собаки" to "https://random.dog/woof.json"
+        "Утки" to "https://random-d.uk/api/random"
     )
 
     @GetMapping("/get-picture")
@@ -39,7 +38,7 @@ class PictureController {
         val imageUrl = when (theme) {
             "Лисы"-> jsonObject.getString("image")
             "Кофе" -> jsonObject.getString("file")
-            "Утки", "Собаки"  -> jsonObject.getString("url")
+            "Утки"  -> jsonObject.getString("url")
             else -> jsonObject.getString("image")
         } // Ссылка на изображение
         // Возвращаем результат клиенту
