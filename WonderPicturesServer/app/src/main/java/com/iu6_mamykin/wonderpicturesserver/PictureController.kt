@@ -1,24 +1,50 @@
 package com.iu6_mamykin.wonderpicturesserver.controllers
 
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class PictureController {
+    private val client = OkHttpClient()
 
     private val pictures = mapOf(
-        "Природа" to "https://i.pinimg.com/736x/0b/7b/a5/0b7ba5a687ac4e3820ba3a556b9a123c.jpg",
-        "Космос" to "https://i.pinimg.com/originals/d9/b8/19/d9b819ec8357a7078c4adb7080544f26.jpg",
-        "Животные" to "https://i.pinimg.com/736x/4d/94/fd/4d94fd6f94146da9766652549a63334e.jpg",
-        "Пейзажи" to "https://www.zastavki.com/pictures/originals/2014/Nature___Clouds_Clouds_in_the_mountains_089495_.jpg",
-        "Города" to "https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_660fad65abb34d38e26f9e74_660fad9755f61733df961e56/scale_1200"
+        "Лисы" to "https://randomfox.ca/floof/",
+        "Кофе" to "https://coffee.alexflipnote.dev/random.json",
+        "Утки" to "https://random-d.uk/api/random",
+        "Собаки" to "https://random.dog/woof.json"
     )
 
     @GetMapping("/get-picture")
     fun getPicture(@RequestParam theme: String): Map<String, String> {
         println("Received request for theme: $theme") // Log to server console
-        val pictureUrl = pictures[theme] ?: "https://example.com/default.jpg"
-        return mapOf("url" to pictureUrl)
+        val request = pictures[theme]?.let {
+            Request.Builder()
+                .url(it)
+                .get()
+                .build()
+        }
+
+        val response = request?.let { client.newCall(it).execute() }
+        if (!response!!.isSuccessful) {
+            throw Exception("Failed to fetch data from API: ${response.code}")
+        }
+        val responseBody = response.body?.string() ?: throw Exception("Empty response body")
+        println("API Response Body: $responseBody")
+        // Распарсим JSON и извлечем значение imageUrl
+        val jsonObject = JSONObject(responseBody)
+        val imageUrl = when (theme) {
+            "Лисы"-> jsonObject.getString("image")
+            "Кофе" -> jsonObject.getString("file")
+            "Утки", "Собаки"  -> jsonObject.getString("url")
+            else -> jsonObject.getString("image")
+        } // Ссылка на изображение
+        // Возвращаем результат клиенту
+        return mapOf(
+            "url" to imageUrl
+        )
     }
 }

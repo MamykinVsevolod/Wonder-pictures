@@ -22,11 +22,12 @@ fun WonderPicturesApp() {
     val coroutineScope = rememberCoroutineScope() // Для запуска корутин
 
     WonderPicturesScreen(
-        themes = listOf("Природа", "Космос", "Животные", "Пейзажи", "Города"),
+        themes = listOf("Лисы", "Кофе", "Утки", "Собаки"),
         selectedTheme = selectedTheme,
         onThemeSelect = { theme ->
             selectedTheme = theme
             isLoading = true
+            pictureUrl = null //
             showPictureViewer = true
             /// Запускаем корутину через rememberCoroutineScope
             coroutineScope.launch {

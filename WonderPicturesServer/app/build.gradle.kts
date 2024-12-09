@@ -12,6 +12,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.json:json:20211205")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("com.h2database:h2")
     implementation("org.springframework.boot:spring-boot-starter-web")
